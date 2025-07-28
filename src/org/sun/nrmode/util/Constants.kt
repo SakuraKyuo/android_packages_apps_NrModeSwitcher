@@ -1,14 +1,14 @@
 /*
  * Copyright (C) 2023 The Nameless-AOSP Project
+ * Copyright (C) 2025 SakuraKyuo
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package org.sun.nrmode.util.Constants
 
+import android.os.Build
 import android.os.SystemProperties
 import android.util.Log
-
-import org.sun.os.DebugConstants.DEBUG_NR_MODE
 
 const val SIM_CARD_1 = 1
 const val SIM_CARD_2 = 2
@@ -28,6 +28,16 @@ const val SETTINGS_SIM_2 = "user_preferred_nr_mode_sim2"
 const val PROP_AUTO_MODE = "persist.sys.sun.radio.auto_nr_mode"
 
 const val INTENT_SIM_STATE_CHANGED_CUSTOM = "org.sun.nrmode.intent.SIM_STATE_CHANGED"
+
+private val DEBUG_GLOBAL: Boolean
+    get() = Build.IS_ENG || SystemProperties.getBoolean(
+        "persist.sys.sun.debug.global", false
+    )
+
+val DEBUG_NR_MODE: Boolean
+    get() = DEBUG_GLOBAL || SystemProperties.getBoolean(
+        "persist.sys.sun.radio.nrmode.debug", false
+    )
 
 fun logD(tag: String, message: String) {
     if (DEBUG_NR_MODE) {
